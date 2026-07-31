@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Paused — 10block</title>
+<!-- The REAL countdown stylesheet, including the 16s box-breathing keyframes. -->
+<link rel="stylesheet" href="/src/blocked.css" />
+</head>
+<body>
+  <div class="scene">
+    <div class="breath-ring" id="ring"></div>
+    <div class="content">
+      <div class="domain" id="domain">&nbsp;</div>
+      <div class="timer" id="timer">10:00</div>
+      <div class="breath-guide">
+        <span class="breath-phase" id="breath-phase">Inhale</span>
+        <span class="breath-count" id="breath-count">4</span>
+      </div>
+      <p class="message">Take a breath. This site is paused.</p>
+      <p class="submessage">It'll be back when the timer runs out.</p>
+    </div>
+  </div>
+
+<script>
+// Static/scripted replica of src/blocked.js for capture. Two modes:
+//   ?freeze=6      — pin the breathing ring at t=6s and hold a fixed timer (screenshots)
+//   ?live=1        — run the real 16s box-breathing cycle and tick down (promo video)
+const q = new URLSearchParams(location.search);
+const timerEl = document.getElementById('timer');
+const phaseEl = document.getElementById('breath-phase');
+const countEl = document.getElementById('breath-count');
+const ring = document.getElementById('ring');
+
+document.getElementById('domain').textContent = q.get('domain') || 'youtube.com';
+
+const BREATH_PHASES = ['Inhale', 'Hold', 'Exhale', 'Hold'];
+const PHASE_MS = 4000;
+
+const fmt = (ms) => {
+  const total = Math.max(0, Math.ceil(ms / 1000));
+  return `${Math.floor(total / 60)}:${String(total % 60).padStart(2, '0')}`;
+};
+
+// Drive the phase label off the same clock the CSS ring animation uses.
+function paintBreath(elapsedMs) {
+  const t = elapsedMs % (BREATH_PHASES.length * PHASE_MS);
+  phaseEl.textContent = BREATH_PHASES[Math.floor(t / PHASE_MS)];
+  countEl.textContent = String(4 - Math.floor((t % PHASE_MS) / 1000));
+}
+
+if (q.has('freeze')) {
+  const at = Number(q.get('freeze')) * 1000;
+  ring.style.animationDelay = `-${at}ms`;
+  ring.style.animationPlayState = 'paused';
+  paintBreath(at);
+  timerEl.textContent = q.get('timer') || '8:42';
+} else if (q.get('live')) {
+  // Counts down from ?timer= (default 10:00) at real time. ?from= is the
+  // page-load-relative moment the block starts, so a promo scene can show the
+  // timer already ticking from the exact instant the click landed.
+  const [m, s] = (q.get('timer') || '10:00').split(':').map(Number);
+  const from = Number(q.get('from') || 0);
+  const expiry = from + (m * 60 + s) * 1000;
+  const tick = () => {
+    timerEl.textContent = fmt(expiry - performance.now());
+    paintBreath(Math.max(0, performance.now() - from));
+  };
+  setInterval(tick, 100);
+  tick();
+} else {
+  timerEl.textContent = q.get('timer') || '10:00';
+}
+</script>
+</body>
+</html>

@@ -26,10 +26,13 @@ def in_ellipse(x, y, cx, cy, rx, ry):
     return nx * nx + ny * ny <= 1.0
 
 
-def make_icon(size, path):
+def make_icon(size, path, canvas=None):
+    """Draw the mark at `size` px. With `canvas`, centre it on a larger
+    transparent square — the Chrome Web Store icon is a 96px mark on 128px."""
     ss = 4  # supersampling factor
-    c = size / 2.0
-    a = c - max(0.5, size * 0.01)      # octagon apothem, tiny margin
+    dim = canvas or size
+    c = dim / 2.0                      # centre of the canvas
+    a = size / 2.0 - max(0.5, size * 0.01)  # octagon apothem, tiny margin
     small = size <= 16                 # too small for a border ring
     ring_out = 0 if small else a * 0.88
     ring_in = 0 if small else a * 0.76
@@ -44,9 +47,9 @@ def make_icon(size, path):
     zero_ry = half_h
 
     rows = []
-    for py in range(size):
+    for py in range(dim):
         row = bytearray()
-        for px in range(size):
+        for px in range(dim):
             body = 0.0
             white = 0.0
             for sy in range(ss):
@@ -91,15 +94,28 @@ def make_icon(size, path):
         return ch
 
     png = b"\x89PNG\r\n\x1a\n"
-    png += chunk(b"IHDR", struct.pack(">IIBBBBB", size, size, 8, 6, 0, 0, 0))
+    png += chunk(b"IHDR", struct.pack(">IIBBBBB", dim, dim, 8, 6, 0, 0, 0))
     png += chunk(b"IDAT", zlib.compress(raw, 9))
     png += chunk(b"IEND", b"")
 
     with open(path, "wb") as f:
         f.write(png)
-    print(f"wrote {path} ({size}x{size})")
+    print(f"wrote {path} ({dim}x{dim})")
 
 
-os.makedirs(OUT_DIR, exist_ok=True)
-for s in (16, 48, 128):
-    make_icon(s, os.path.join(OUT_DIR, f"icon{s}.png"))
+def main(argv):
+    # --store PATH writes the Chrome Web Store listing icon: the same mark at
+    # 96px, centred on a 128px canvas (the 16px margin the store expects).
+    if len(argv) >= 2 and argv[0] == "--store":
+        os.makedirs(os.path.dirname(os.path.abspath(argv[1])), exist_ok=True)
+        make_icon(96, argv[1], canvas=128)
+        return
+
+    os.makedirs(OUT_DIR, exist_ok=True)
+    for s in (16, 48, 128):
+        make_icon(s, os.path.join(OUT_DIR, f"icon{s}.png"))
+
+
+if __name__ == "__main__":
+    import sys
+    main(sys.argv[1:])

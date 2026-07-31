@@ -1,0 +1,213 @@
+/* Shared look for every 10block store asset: screenshots, tiles, promo video.
+   Colours are lifted from the product's own stylesheets so the marketing and
+   the extension read as one thing. */
+
+:root {
+  --ink: #f2f3f5;
+  --muted: #8b90a5;
+  --accent: #6366f1;
+  --orange: #e7593a;
+  --surface: #1c1f2e;
+  --line: #2b2f45;
+  --deep: #0b0d14;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #000;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* A capture surface. Each one is screenshotted at its exact pixel size. */
+.frame {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 900px 620px at 50% -10%, #242948 0%, rgba(11, 13, 20, 0) 68%),
+    radial-gradient(ellipse 700px 500px at 88% 108%, #2a1c28 0%, rgba(11, 13, 20, 0) 62%),
+    var(--deep);
+}
+
+.shot { width: 1280px; height: 800px; }
+
+/* ---- headline block ---------------------------------------------------- */
+
+.head { padding: 58px 64px 0; }
+
+.head h1 {
+  font-size: 46px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.06;
+}
+
+.head h1 .em { color: var(--orange); }
+
+.head p {
+  margin-top: 13px;
+  font-size: 19.5px;
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--muted);
+  /* Wide enough that every subline sets on one line — no orphan words. */
+  max-width: 940px;
+}
+
+/* Everything below the headline. */
+.stage {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 208px;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  /* Content-height children sit centred; anything that should bleed off the
+     bottom edge opts out with align-self: flex-start. */
+  align-items: center;
+}
+
+/* ---- browser mock ------------------------------------------------------ */
+
+.browser {
+  width: 1040px;
+  border: 1px solid var(--line);
+  border-radius: 14px 14px 0 0;
+  overflow: hidden;
+  background: var(--surface);
+  box-shadow: 0 34px 90px rgba(0, 0, 0, 0.62);
+}
+
+.browser-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 46px;
+  padding: 0 14px;
+  background: #20243a;
+  border-bottom: 1px solid #191d30;
+}
+
+.dots { display: flex; gap: 7px; }
+.dots i { width: 11px; height: 11px; border-radius: 50%; display: block; }
+.dots i:nth-child(1) { background: #ff5f57; }
+.dots i:nth-child(2) { background: #febc2e; }
+.dots i:nth-child(3) { background: #28c840; }
+
+.omnibox {
+  flex: 1;
+  height: 29px;
+  border-radius: 15px;
+  background: #12141d;
+  border: 1px solid #262b42;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 13px;
+  font-size: 13px;
+  color: #a4a9bd;
+}
+
+.omnibox .lock { color: #6d7288; font-size: 12px; }
+
+.toolbar-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  display: block;
+}
+
+/* The extension icon in the toolbar, ringed when the popup is open. */
+.toolbar-icon.active {
+  border-radius: 6px;
+  outline: 2px solid rgba(99, 102, 241, 0.85);
+  outline-offset: 3px;
+}
+
+.viewport { position: relative; height: 486px; background: #0f1119; }
+.viewport iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+/* ---- generic page behind the popup ------------------------------------
+   Deliberately abstract: no third-party logos or brand colours anywhere. */
+
+.page {
+  height: 100%;
+  padding: 20px 24px;
+  background: #14161f;
+  filter: saturate(0.5);
+}
+
+.page-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+.page-top .pill { height: 11px; border-radius: 6px; background: #262a38; }
+.page-top .pill.w1 { width: 96px; }
+.page-top .pill.w2 { width: 58px; }
+.page-top .pill.w3 { width: 74px; }
+.page-top .grow { flex: 1; }
+.page-top .avatar { width: 24px; height: 24px; border-radius: 50%; background: #262a38; }
+
+.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px 18px; }
+.card .thumb {
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  background: linear-gradient(150deg, #232838 0%, #1b1f2c 100%);
+}
+.card .l1 { height: 9px; border-radius: 5px; background: #262a38; margin-top: 10px; }
+.card .l2 { height: 9px; border-radius: 5px; background: #1f2331; margin-top: 7px; width: 62%; }
+
+/* Dim the page so the popup is unmistakably the subject. */
+.page.dim { filter: saturate(0.35) brightness(0.62); }
+
+/* ---- popup panel ------------------------------------------------------- */
+
+.popup-panel {
+  width: 300px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #12141d;
+  border: 1px solid #2a2f47;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.72), 0 0 0 1px rgba(99, 102, 241, 0.12);
+}
+
+.popup-panel iframe { width: 300px; border: 0; display: block; }
+
+/* Anchored under the toolbar icon, like the real popup. */
+.popup-anchored {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  z-index: 5;
+  transform-origin: top right;
+}
+
+/* ---- small parts ------------------------------------------------------- */
+
+.fact {
+  flex: 1;
+  background: rgba(28, 31, 46, 0.72);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 30px 28px 32px;
+}
+.fact .icon { display: block; width: 30px; height: 30px; color: #8f93f7; }
+.fact h3 { font-size: 21px; font-weight: 700; margin-top: 18px; letter-spacing: -0.01em; }
+.fact p { font-size: 15.5px; line-height: 1.55; color: var(--muted); margin-top: 9px; }
+
+/* ---- wordmark ---------------------------------------------------------- */
+
+.wordmark { display: flex; align-items: center; gap: 14px; }
+.wordmark img { display: block; }
+.wordmark .text {
+  font-size: 44px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #f2f3f5;
+}
+.wordmark .text .accent { color: var(--orange); }

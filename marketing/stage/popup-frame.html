@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<!-- The REAL popup stylesheet — store assets can never drift from the shipped UI. -->
+<link rel="stylesheet" href="/src/popup.css" />
+<style>
+  /* The popup renders at its true 300px body width; the host page scales it. */
+  html { background: transparent; }
+  body { overflow: hidden; }
+
+  /* "+10" press + timer swap, used by the promo video (?anim=extend).
+     Shares the video's 31s master timeline so it stays frame-synced. */
+  /* Scoped to the .hot row — an unscoped .time-before selector also faded out
+     the timers on every other row in the list. */
+  body.anim .extend-btn.hot          { animation: press 31s linear both; }
+  body.anim .time-stack.hot .time-before { animation: swapOut 31s linear both; }
+  body.anim .time-stack.hot .time-after  { animation: swapIn  31s linear both; }
+
+  @keyframes press {
+    0%, 70.9%   { transform: scale(1);    background: var(--bg); border-color: #2b2f45; }
+    71.6%       { transform: scale(0.88); background: #252a3e;    border-color: var(--accent); }
+    72.5%, 100% { transform: scale(1);    background: #252a3e;    border-color: var(--accent); }
+  }
+  @keyframes swapOut { 0%, 71.6% { opacity: 1 } 72.5%, 100% { opacity: 0 } }
+  @keyframes swapIn  { 0%, 71.6% { opacity: 0 } 72.5%, 100% { opacity: 1 } }
+
+  /* Stacked so the swap is a crossfade in place, not a reflow. */
+  .time-stack { position: relative; flex-shrink: 0; }
+  .time-stack .time-after { position: absolute; inset: 0; text-align: right; }
+</style>
+</head>
+<body>
+  <header>
+    <img class="logo-mark" src="/src/icons/icon48.png" alt="" width="26" height="26" />
+    <span class="logo">10<span class="logo-accent">block</span></span>
+  </header>
+
+  <main id="main"></main>
+
+  <section id="blocked-list-section" hidden>
+    <h2>Paused right now</h2>
+    <ul id="blocked-list"></ul>
+  </section>
+
+<script>
+// Static replica of src/popup.js's render functions. Same markup, same classes,
+// same stylesheet — only the data is canned instead of read from chrome.storage.
+const q = new URLSearchParams(location.search);
+const main = document.getElementById('main');
+const listSection = document.getElementById('blocked-list-section');
+const list = document.getElementById('blocked-list');
+
+const el = (tag, cls, text) => {
+  const n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (text != null) n.textContent = text;
+  return n;
+};
+
+function renderBlockButton(domain) {
+  const btn = el('button', 'block-btn');
+  btn.append(el('span', 'domain', `Block ${domain}`), el('span', 'sub', 'for 10 minutes'));
+  const alts = el('div', 'alt-durations');
+  for (const m of [30, 60]) alts.append(el('button', 'alt-btn', `${m} minutes`));
+  main.append(btn, alts);
+}
+
+function renderStatusCard(domain, remaining, note) {
+  const card = el('div', 'status-card');
+  if (domain) card.append(el('div', 'domain', domain));
+  if (remaining) card.append(el('div', 'remaining', remaining));
+  card.append(el('div', 'note', note || 'Paused. Hang in there.'));
+  main.append(card);
+}
+
+// list=reddit.com:7:12:hot,x.com:22:05 — trailing flags: "hot" (animate +10),
+// "off" (disabled, i.e. within a minute of the 60-minute cap).
+function renderBlockedList(spec) {
+  const rows = spec.split(',').map((s) => s.trim()).filter(Boolean);
+  if (!rows.length) return;
+  listSection.hidden = false;
+  for (const row of rows) {
+    const parts = row.split(':');
+    const domain = parts[0];
+    const flag = ['hot', 'off'].includes(parts[parts.length - 1]) ? parts.pop() : '';
+    const time = parts.slice(1).join(':');
+
+    const li = document.createElement('li');
+    const stack = el('div', 'time-stack');
+    stack.append(el('span', 'time time-before', time));
+    if (flag === 'hot') {
+      stack.classList.add('hot');
+      stack.append(el('span', 'time time-after', q.get('after') || time));
+    }
+
+    const btn = el('button', 'extend-btn', '+10');
+    if (flag === 'hot') btn.classList.add('hot');
+    if (flag === 'off') btn.disabled = true;
+
+    li.append(el('span', 'site', domain), stack, btn);
+    list.append(li);
+  }
+}
+
+const domain = q.get('domain') || 'youtube.com';
+if (q.get('mode') === 'status') {
+  renderStatusCard(domain, q.get('remaining'), q.get('note'));
+} else if (q.get('mode') !== 'none') {
+  renderBlockButton(domain);
+}
+if (q.get('list')) renderBlockedList(q.get('list'));
+if (q.get('anim') === 'extend') document.body.classList.add('anim');
+
+// Report natural height so the host can size the iframe with no scrollbar.
+window.parent.postMessage({ popupHeight: document.body.scrollHeight }, '*');
+</script>
+</body>
+</html>

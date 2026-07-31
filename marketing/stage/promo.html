@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>10block — promo</title>
+<link rel="stylesheet" href="common.css" />
+<style>
+/* ============================================================
+   31-second promo, one continuous 1280x800 take.
+
+   Every animated element runs ONE animation whose duration is the full
+   31s master timeline, with its own keyframe percentages. Nothing uses
+   animation-delay, so every layer is frame-locked to the same clock and
+   the scenes can't drift apart.
+
+   Scene map:   A 0-3.5s  logo
+                B 3.5-10s browser + two clicks
+                C 10-20s  countdown + breathing
+                D 20-25.5s  +10
+                E 25.5-31s  end card
+   ============================================================ */
+
+body { margin: 0; background: #000; overflow: hidden; }
+
+.video {
+  position: relative;
+  width: 1280px;
+  height: 800px;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 900px 620px at 50% -10%, #242948 0%, rgba(11, 13, 20, 0) 68%),
+    var(--deep);
+}
+
+/* Held at the 0% frame until measurement finishes, then released together. */
+.video * { animation-play-state: paused; }
+html.go .video * { animation-play-state: running; }
+
+.scene { position: absolute; inset: 0; animation-duration: 31s; animation-timing-function: linear; animation-fill-mode: both; }
+.anim  { animation-duration: 31s; animation-fill-mode: both; }
+
+/* ---- scene crossfades ---- */
+.sA { animation-name: sA } @keyframes sA { 0%,11.29%{opacity:1} 12.9%,100%{opacity:0} }
+.sB { animation-name: sB } @keyframes sB { 0%,11.29%{opacity:0} 12.9%,32.26%{opacity:1} 33.87%,100%{opacity:0} }
+.sC { animation-name: sC } @keyframes sC { 0%,32.26%{opacity:0} 33.87%,64.52%{opacity:1} 66.13%,100%{opacity:0} }
+.sD { animation-name: sD } @keyframes sD { 0%,64.52%{opacity:0} 66.13%,82.26%{opacity:1} 83.87%,100%{opacity:0} }
+.sE { animation-name: sE } @keyframes sE { 0%,82.26%{opacity:0} 83.87%,100%{opacity:1} }
+
+/* ============ A · logo ============ */
+.sA .center {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px;
+}
+.sA .mark { width: 120px; height: 120px; display: block; animation-name: aMark; animation-timing-function: cubic-bezier(.2,.8,.25,1); }
+@keyframes aMark { 0%,1%{opacity:0;transform:scale(.68)} 5.2%{opacity:1;transform:scale(1)} 100%{opacity:1;transform:scale(1)} }
+
+.sA .name { font-size: 62px; font-weight: 800; letter-spacing: -0.035em; animation-name: aName; animation-timing-function: cubic-bezier(.2,.8,.25,1); }
+.sA .name .accent { color: var(--orange); }
+@keyframes aName { 0%,3.2%{opacity:0;transform:translateY(14px)} 7.4%{opacity:1;transform:translateY(0)} 100%{opacity:1;transform:translateY(0)} }
+
+.sA .tag { font-size: 24px; font-weight: 500; color: var(--muted); animation-name: aTag; animation-timing-function: cubic-bezier(.2,.8,.25,1); }
+@keyframes aTag { 0%,5.2%{opacity:0;transform:translateY(10px)} 9%{opacity:1;transform:translateY(0)} 100%{opacity:1;transform:translateY(0)} }
+
+/* ============ B · browser + two clicks ============ */
+.sB .browser { position: absolute; left: 120px; top: 150px; width: 1040px; border-radius: 14px 14px 0 0; }
+.sB .viewport { height: 604px; }
+.sB .viewport .page,
+.sB .viewport .fill { position: absolute; inset: 0; }
+.sB .viewport iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+/* page fades to the countdown the instant the block lands (8.5s) */
+.sB .page { animation-name: pageOut } @keyframes pageOut { 0%,27.42%{opacity:1} 28.7%,100%{opacity:0} }
+.sB .fill { animation-name: pageIn }  @keyframes pageIn  { 0%,27.42%{opacity:0} 28.7%,100%{opacity:1} }
+
+/* popup opens at 5.7s, closes at 8.5s */
+.sB .popup-anchored { transform-origin: top right; animation-name: popIn; animation-timing-function: cubic-bezier(.2,.8,.25,1); }
+@keyframes popIn {
+  0%,18.39% { opacity:0; transform: scale(.94) translateY(-8px) }
+  20.3%     { opacity:1; transform: scale(1) translateY(0) }
+  26.45%    { opacity:1; transform: scale(1) translateY(0) }
+  27.42%,100% { opacity:0; transform: scale(.97) translateY(-5px) }
+}
+
+/* ---- cursor + click ripples (positions injected by JS) ---- */
+.cursor { position: absolute; left: 0; top: 0; width: 26px; height: 26px; z-index: 40; pointer-events: none;
+          filter: drop-shadow(0 3px 6px rgba(0,0,0,.6)); animation-timing-function: cubic-bezier(.45,.05,.25,1); }
+.ripple { position: absolute; width: 64px; height: 64px; margin: -32px 0 0 -32px; border-radius: 50%;
+          border: 2px solid rgba(99,102,241,.95); background: rgba(99,102,241,.16); z-index: 39; pointer-events: none; }
+
+.sB .cursor { animation-name: cursorB }
+.rip-icon { animation-name: ripIcon } @keyframes ripIcon { 0%,18.06%{opacity:0;transform:scale(.25)} 18.7%{opacity:.75;transform:scale(1)} 19.9%,100%{opacity:0;transform:scale(1.75)} }
+.rip-btn  { animation-name: ripBtn }  @keyframes ripBtn  { 0%,25.48%{opacity:0;transform:scale(.25)} 26.1%{opacity:.75;transform:scale(1)} 27.3%,100%{opacity:0;transform:scale(1.75)} }
+.sD .cursor { animation-name: cursorD }
+.rip-ext  { animation-name: ripExt }  @keyframes ripExt  { 0%,71.6%{opacity:0;transform:scale(.25)} 72.2%{opacity:.75;transform:scale(1)} 73.4%,100%{opacity:0;transform:scale(1.75)} }
+
+/* ============ C · countdown ============ */
+.sC .fill { position: absolute; inset: 0; }
+.sC iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+/* ============ D · +10 ============ */
+.sD .center { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.sD .popup-panel { transform: scale(1.55); transform-origin: center; }
+
+/* ============ E · end card ============ */
+.sE .center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; }
+.sE .mark { width: 96px; height: 96px; display: block; }
+.sE .name { font-size: 54px; font-weight: 800; letter-spacing: -0.035em; }
+.sE .name .accent { color: var(--orange); }
+.sE .line { font-size: 27px; font-weight: 600; margin-top: 4px; }
+.sE .sub { font-size: 18px; color: var(--muted); font-weight: 500; }
+
+/* ============ captions ============ */
+/* Captions sit over live UI, so they get their own scrim to stay legible. */
+.capscrim {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 215px; pointer-events: none;
+  background: linear-gradient(180deg, rgba(11,13,20,0) 0%, rgba(11,13,20,.72) 52%, rgba(11,13,20,.95) 100%);
+}
+
+.caption {
+  position: absolute; left: 0; right: 0; bottom: 58px; text-align: center;
+  font-size: 27px; font-weight: 600; letter-spacing: -0.015em;
+  text-shadow: 0 2px 24px rgba(0,0,0,.9), 0 1px 3px rgba(0,0,0,.8);
+  animation-duration: 31s; animation-fill-mode: both; animation-timing-function: linear;
+}
+.caption .em { color: var(--orange); }
+
+.capB  { animation-name: capB }  @keyframes capB  { 0%,14.19%{opacity:0} 16.13%,29.03%{opacity:1} 30.97%,100%{opacity:0} }
+.capC1 { animation-name: capC1 } @keyframes capC1 { 0%,34.5%{opacity:0} 36.13%,46.77%{opacity:1} 48.39%,100%{opacity:0} }
+.capC2 { animation-name: capC2 } @keyframes capC2 { 0%,48.39%{opacity:0} 50%,62.9%{opacity:1} 64.52%,100%{opacity:0} }
+.capD  { animation-name: capD }  @keyframes capD  { 0%,66.45%{opacity:0} 68.06%,80%{opacity:1} 81.29%,100%{opacity:0} }
+</style>
+</head>
+<body>
+
+<div class="video" id="video">
+
+  <!-- ============ A ============ -->
+  <div class="scene sA">
+    <div class="center">
+      <img class="mark anim" src="/src/icons/icon128.png" alt="" />
+      <div class="name anim">10<span class="accent">block</span></div>
+      <div class="tag anim">10 minutes to change your mind.</div>
+    </div>
+  </div>
+
+  <!-- ============ B ============ -->
+  <div class="scene sB">
+    <div class="browser">
+      <div class="browser-bar">
+        <div class="dots"><i></i><i></i><i></i></div>
+        <div class="omnibox"><span class="lock">🔒</span> youtube.com</div>
+        <img class="toolbar-icon" id="tb-icon" src="/src/icons/icon128.png" alt="" />
+      </div>
+      <div class="viewport">
+        <div class="page dim anim">
+          <div class="page-top">
+            <div class="pill w1"></div><div class="pill w2"></div><div class="pill w3"></div>
+            <div class="grow"></div><div class="avatar"></div>
+          </div>
+          <div class="grid">
+            <div class="card"><div class="thumb"></div><div class="l1"></div><div class="l2"></div></div>
+            <div class="card"><div class="thumb"></div><div class="l1"></div><div class="l2"></div></div>
+            <div class="card"><div class="thumb"></div><div class="l1"></div><div class="l2"></div></div>
+            <div class="card"><div class="thumb"></div><div class="l1"></div><div class="l2"></div></div>
+            <div class="card"><div class="thumb"></div><div class="l1"></div><div class="l2"></div></div>
+            <div class="card"><div class="thumb"></div><div class="l1"></div><div class="l2"></div></div>
+            <div class="card"><div class="thumb"></div><div class="l1"></div><div class="l2"></div></div>
+            <div class="card"><div class="thumb"></div><div class="l1"></div><div class="l2"></div></div>
+            <div class="card"><div class="thumb"></div><div class="l1"></div><div class="l2"></div></div>
+            <div class="card"><div class="thumb"></div><div class="l1"></div><div class="l2"></div></div>
+            <div class="card"><div class="thumb"></div><div class="l1"></div><div class="l2"></div></div>
+            <div class="card"><div class="thumb"></div><div class="l1"></div><div class="l2"></div></div>
+          </div>
+        </div>
+        <div class="fill anim">
+          <iframe src="blocked-frame.html?domain=youtube.com&live=1&timer=10:00&from=7900"></iframe>
+        </div>
+        <div class="popup-anchored anim">
+          <div class="popup-panel">
+            <iframe id="pop-b" data-autosize src="popup-frame.html?domain=youtube.com&mode=block"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ripple rip-icon anim"></div>
+    <div class="ripple rip-btn anim"></div>
+    <svg class="cursor anim" viewBox="0 0 24 24" fill="none">
+      <path d="M2 1.5 L2 19 L6.8 14.6 L9.9 21.6 L13.2 20.1 L10.1 13.3 L16.6 13.1 Z"
+            fill="#fff" stroke="#12141d" stroke-width="1.4" stroke-linejoin="round"/>
+    </svg>
+    <div class="capscrim"></div>
+    <div class="caption capB">Two clicks. <span class="em">Zero typing.</span></div>
+  </div>
+
+  <!-- ============ C ============ -->
+  <div class="scene sC">
+    <div class="fill">
+      <iframe src="blocked-frame.html?domain=youtube.com&live=1&timer=10:00&from=7900"></iframe>
+    </div>
+    <div class="capscrim"></div>
+    <div class="caption capC1">The site becomes a <span class="em">countdown</span>.</div>
+    <div class="caption capC2">Box-breathing paces the wait.</div>
+  </div>
+
+  <!-- ============ D ============ -->
+  <div class="scene sD">
+    <div class="center">
+      <div class="popup-panel">
+        <iframe id="pop-d" data-autosize
+          src="popup-frame.html?domain=youtube.com&mode=status&remaining=8:42&anim=extend&after=17:12&list=reddit.com:7:12:hot,x.com:24:05"></iframe>
+      </div>
+    </div>
+    <div class="ripple rip-ext anim"></div>
+    <svg class="cursor anim" viewBox="0 0 24 24" fill="none">
+      <path d="M2 1.5 L2 19 L6.8 14.6 L9.9 21.6 L13.2 20.1 L10.1 13.3 L16.6 13.1 Z"
+            fill="#fff" stroke="#12141d" stroke-width="1.4" stroke-linejoin="round"/>
+    </svg>
+    <div class="capscrim"></div>
+    <div class="caption capD">Need longer? <span class="em">+10.</span></div>
+  </div>
+
+  <!-- ============ E ============ -->
+  <div class="scene sE">
+    <div class="center">
+      <img class="mark" src="/src/icons/icon128.png" alt="" />
+      <div class="name">10<span class="accent">block</span></div>
+      <div class="line">No early unblock. That's the point.</div>
+      <div class="sub">Free · no account · nothing leaves your browser</div>
+    </div>
+  </div>
+
+</div>
+
+<style id="dyn"></style>
+<script>
+// Measure the real click targets instead of hard-coding pixel positions, so
+// the cursor still lands on the button if the popup layout ever changes.
+const iframes = [...document.querySelectorAll('iframe')];
+let pending = document.querySelectorAll('iframe[data-autosize]').length;
+
+window.addEventListener('message', (e) => {
+  const h = e.data && e.data.popupHeight;
+  if (!h) return;
+  for (const f of document.querySelectorAll('iframe[data-autosize]')) {
+    if (f.contentWindow === e.source) {
+      f.style.height = h + 'px';
+      if (--pending === 0) requestAnimationFrame(() => requestAnimationFrame(measureAndGo));
+    }
+  }
+});
+
+// Centre of `selector` inside `iframe`, in page coordinates, accounting for
+// any CSS transform scaling applied to the iframe or its ancestors.
+function centerOf(iframe, selector) {
+  const host = iframe.getBoundingClientRect();
+  const sx = host.width / iframe.offsetWidth;
+  const sy = host.height / iframe.offsetHeight;
+  const r = iframe.contentDocument.querySelector(selector).getBoundingClientRect();
+  return { x: host.left + (r.left + r.width / 2) * sx, y: host.top + (r.top + r.height / 2) * sy };
+}
+
+function measureAndGo() {
+  const ir = document.getElementById('tb-icon').getBoundingClientRect();
+  const icon = { x: ir.left + ir.width / 2, y: ir.top + ir.height / 2 };
+  const blk = centerOf(document.getElementById('pop-b'), '.block-btn');
+  const ext = centerOf(document.getElementById('pop-d'), '.extend-btn.hot');
+
+  document.getElementById('dyn').textContent = `
+    @keyframes cursorB {
+      0%,12.9%  { transform: translate(600px, 640px); opacity: 0 }
+      14.2%     { transform: translate(600px, 640px); opacity: 1 }
+      18.06%    { transform: translate(${icon.x}px, ${icon.y}px); opacity: 1 }
+      20.65%    { transform: translate(${icon.x}px, ${icon.y}px); opacity: 1 }
+      24.52%    { transform: translate(${blk.x}px, ${blk.y}px); opacity: 1 }
+      27.42%    { transform: translate(${blk.x}px, ${blk.y}px); opacity: 1 }
+      29%,100%  { transform: translate(${blk.x}px, ${blk.y}px); opacity: 0 }
+    }
+    @keyframes cursorD {
+      0%,65.5%  { transform: translate(760px, 700px); opacity: 0 }
+      67.1%     { transform: translate(760px, 700px); opacity: 1 }
+      70.97%    { transform: translate(${ext.x}px, ${ext.y}px); opacity: 1 }
+      80%       { transform: translate(${ext.x}px, ${ext.y}px); opacity: 1 }
+      81.5%,100%{ transform: translate(${ext.x}px, ${ext.y}px); opacity: 0 }
+    }
+    .rip-icon { left:${icon.x}px; top:${icon.y}px }
+    .rip-btn  { left:${blk.x}px;  top:${blk.y}px }
+    .rip-ext  { left:${ext.x}px;  top:${ext.y}px }
+  `;
+
+  // Release every animation on the same frame.
+  requestAnimationFrame(() => {
+    document.documentElement.classList.add('go');
+    document.documentElement.dataset.ready = '1';
+  });
+}
+</script>
+</body>
+</html>
