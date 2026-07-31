@@ -3,6 +3,16 @@
 Versioning is an odometer: each component counts 0–9 and carries into the next
 (1.3.9 → 1.4.0, 1.9.9 → 2.0.0). Cut releases with `npm run release`.
 
+## [1.3.1] - 2026-07-31
+
+- Request `declarativeNetRequestWithHostAccess` instead of `declarativeNetRequest`.
+  Behaviour is identical — `<all_urls>` is still declared, so every rule action works
+  exactly as before — but it drops a redundant install-time permission warning. All 11
+  e2e tests pass unchanged.
+- Chrome Web Store submission package: store icon, 5 screenshots, small and marquee promo
+  tiles, and a 31-second promo video, all generated from the real extension stylesheets
+  (`npm run assets`). Listing copy, per-permission justifications, and a privacy policy.
+
 ## [1.3.0] - 2026-07-31
 
 First packaged release.
