@@ -47,12 +47,19 @@ release/    versioned zips: 10block-X.Y.Z.zip
 
 ## Releases
 
+Two-phase flow, cut from `main`:
+
 ```sh
-npm run release              # bump version (1.3.0 → 1.3.1 … 1.3.9 → 1.4.0) and zip src/ into release/
-npm run release -- --no-bump # re-zip the current version
+# 1. Write the changelog: add a "## [X.Y.Z]" section for the NEXT version.
+# 2. Cut the release — bump version, zip src/, "Release vX.Y.Z" commit + tag:
+npm run release
+# 3. Review the commit, then push + create the GitHub release (zip attached):
+npm run release:publish
 ```
 
-The version is an odometer — each component counts 0–9 and carries into the next. The script keeps `package.json` and `src/manifest.json` in sync.
+Escape hatches: `npm run release -- --zip-only` (bump + zip, no git), `npm run release -- --no-bump` (re-zip current version, no git).
+
+The version is an odometer — each component counts 0–9 and carries into the next: `1.3.0 → 1.3.1 … 1.3.9 → 1.4.0`, `1.9.9 → 2.0.0`. The script keeps `package.json` and `src/manifest.json` in sync and refuses to cut a release without its changelog entry.
 
 ## Tests
 
