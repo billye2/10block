@@ -88,8 +88,9 @@ ffmpeg -i marketing/store/promo-video-1280x800.webm \
 - Listing copy and privacy paperwork are done: `docs/STORE_LISTING.md`,
   `docs/privacy-practices-copy.md`, and `10block-PRIVACY.md` (published at
   `https://github.com/billye2/pdfxtn/blob/main/docs/10block-PRIVACY.md`).
-- `<all_urls>` host permissions will draw a permissions-justification prompt in
-  the dashboard. The honest answer: `declarativeNetRequest` needs to match
-  navigations to whatever domain the user chooses at click time.
+- Upload `release/10block-1.3.1.zip` (not 1.3.0 — it's superseded).
+- `<all_urls>` has already been flagged by the dashboard, and the decision is to
+  **keep it**. The justification is written; see `docs/privacy-practices-copy.md`
+  and the reasoning in `HANDOFF.md`. Expect a slower first review.
 - No screenshot uses a third-party logo or brand colour — domains appear as
   plain text in an address bar only, which is what the extension actually does.

@@ -5,7 +5,9 @@ Everything to paste into the Developer Dashboard for 10block.
 ## Upload package
 
 - **File:** `release/10block-<version>.zip` (built from `src/`, `manifest.json` at the zip root).
-- Current: `release/10block-1.3.0.zip` — verified byte-identical to `src/`.
+- **Upload `release/10block-1.3.1.zip`** — verified byte-identical to `src/`.
+  ⚠️ `10block-1.3.0.zip` is superseded: it predates the switch to
+  `declarativeNetRequestWithHostAccess`. Don't upload it.
 - (Re)package with **`npm run release`** (or `npm run release -- --no-bump` to re-zip the
   current version). The Web Store rejects re-uploads of a version that already exists, so
   always let the script bump.

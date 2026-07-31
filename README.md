@@ -39,15 +39,20 @@ Blocks survive closing the popup, the tab, and even restarting Chrome.
 - `chrome.storage.local` stores each domain's absolute expiry timestamp — the popup, countdown page, and background all count down against the same clock.
 - `chrome.alarms` removes the rule exactly at expiry; a startup sweep cleans up anything that expired while Chrome was closed.
 
+The extension requests `<all_urls>` because the domain to block isn't known until you click — it's whatever site you're on. Worth knowing: `block` rules need no host access at all, but 10block uses a `redirect` rule so it can show its own countdown page rather than a browser error page, and `redirect` is the action that requires host access. Full reasoning in [docs/privacy-practices-copy.md](docs/privacy-practices-copy.md).
+
 ## Project layout
 
 ```
-src/          the extension itself (manifest, popup, blocked page, icons) — load this folder unpacked
-tests/        Playwright e2e suite
-scripts/      release.mjs (two-phase release), make_icons.py (icon generator)
-release/      versioned zips: 10block-X.Y.Z.zip
-CHANGELOG.md  one section per version; the release script requires it
-HANDOFF.md    project state, key mechanics, and open items
+src/                the extension itself (manifest, popup, blocked page, icons) — load this folder unpacked
+tests/              Playwright e2e suite
+scripts/            release.mjs (two-phase release), make_icons.py (icon generator)
+release/            versioned zips: 10block-X.Y.Z.zip
+marketing/          Web Store artwork and the generator that builds it (npm run assets)
+docs/               store listing copy and per-permission justifications
+10block-PRIVACY.md  privacy policy
+CHANGELOG.md        one section per version; the release script requires it
+HANDOFF.md          project state, key mechanics, and open items
 ```
 
 ## Releases
@@ -85,6 +90,18 @@ python3 scripts/make_icons.py
 ```
 
 The popup logo renders `src/icons/icon48.png` directly, so the popup mark and the toolbar icon can never drift apart.
+
+## Store assets
+
+Everything the Chrome Web Store listing needs — the 128px icon, five 1280×800 screenshots, both promo tiles, and a 31-second promo video — is generated, not hand-designed:
+
+```sh
+npm run assets
+```
+
+The generator renders the popup and countdown page from `src/popup.css` and `src/blocked.css` directly, and the store icon comes out of `scripts/make_icons.py`, so the artwork can't drift from the shipped UI. Change the palette, re-run one command, and every asset follows. See [marketing/README.md](marketing/README.md).
+
+Listing copy, per-permission justifications, and the pre-submit checklist live in [docs/STORE_LISTING.md](docs/STORE_LISTING.md).
 
 ## Picking this up
 
