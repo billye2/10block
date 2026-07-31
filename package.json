@@ -1,0 +1,15 @@
+{
+  "name": "10block",
+  "version": "1.3.0",
+  "private": true,
+  "description": "Chrome extension: block the current website for 10 minutes.",
+  "scripts": {
+    "test": "playwright test",
+    "release": "node scripts/release.mjs",
+    "release:publish": "node scripts/release.mjs --publish",
+    "icons": "python3 scripts/make_icons.py"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0"
+  }
+}

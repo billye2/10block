@@ -1,0 +1,124 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: radial-gradient(ellipse at 50% 40%, #1c2036 0%, #12141d 65%);
+  color: #e8eaf2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.scene {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.breath-ring {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  animation: breathe 16s ease-in-out infinite;
+}
+
+.breath-ring::after {
+  content: "";
+  position: absolute;
+  inset: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(99, 102, 241, 0.15);
+}
+
+/* 16s box breathing: inhale 4s, hold 4s, exhale 4s, hold 4s.
+   Kept in sync with the phase label in blocked.js (same 16s cycle from load). */
+@keyframes breathe {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.55;
+  }
+  25%,
+  50% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+  75%,
+  100% {
+    transform: scale(0.85);
+    opacity: 0.55;
+  }
+}
+
+.content {
+  position: relative;
+  text-align: center;
+  padding: 24px;
+}
+
+.domain {
+  font-size: 18px;
+  font-weight: 600;
+  color: #8b90a5;
+  letter-spacing: 0.02em;
+  word-break: break-all;
+}
+
+.timer {
+  font-size: 96px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin: 8px 0 10px;
+  background: linear-gradient(180deg, #eef0ff 0%, #a5a8f5 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.breath-guide {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.breath-phase {
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #8f93f7;
+}
+
+.breath-count {
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: #8b90a5;
+}
+
+.message {
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.submessage {
+  font-size: 14px;
+  color: #8b90a5;
+  margin-top: 6px;
+}
