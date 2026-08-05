@@ -9,7 +9,8 @@ Rebrand for discoverability — no behavior changes.
 
 - Renamed to **Block Site for 10 Minutes: Stop Doomscrolling** (manifest `name`, 45 chars —
   the store title updates when this version is published). Keyword-carrying manifest
-  description and toolbar tooltip. The in-product "10block" wordmark is unchanged.
+  description and toolbar tooltip. The popup wordmark and countdown-page title now read
+  "Block Site" instead of "10block".
 - Redesigned icon: still the red stop-sign octagon with a white "10", now drawn from an
   SVG source (`src/icons/icon.svg`) with a red gradient, rounded corners, and cleaner
   digits; a simplified variant keeps 16px legible. `scripts/gen-icons.mjs`
