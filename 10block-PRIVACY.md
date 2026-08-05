@@ -1,9 +1,10 @@
-# Privacy Policy — 10block
+# Privacy Policy — Block Site for 10 Minutes: Stop Doomscrolling
 
-_Last updated: 2026-07-31_
+_Last updated: 2026-08-04_
 
-10block is a Chrome extension that blocks a website you choose for a fixed number of
-minutes and shows a countdown page in its place.
+**Block Site for 10 Minutes: Stop Doomscrolling** (developed under the working name
+**10block**, used as shorthand below) is a Chrome extension that blocks a website you
+choose for a fixed number of minutes and shows a countdown page in its place.
 
 ## What we collect
 
