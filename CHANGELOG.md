@@ -3,6 +3,13 @@
 Versioning is an odometer: each component counts 0–9 and carries into the next
 (1.3.9 → 1.4.0, 1.9.9 → 2.0.0). Cut releases with `npm run release`.
 
+## [1.3.3] - 2026-08-04
+
+- Even out the popup wordmark: "Block" and "Site" now sit on a shared flex
+  baseline with a fixed gap, and grayscale antialiasing stops the white word
+  rendering heavier than the orange one on the dark header. Screenshots and
+  promo video regenerated.
+
 ## [1.3.2] - 2026-08-04
 
 Rebrand for discoverability — no behavior changes.

@@ -39,10 +39,16 @@ header {
 }
 
 .logo {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
   font-size: 17px;
   font-weight: 800;
   letter-spacing: -0.01em;
   color: #f2f3f5;
+  /* Subpixel smoothing renders white-on-dark heavier than the orange next to
+     it, which reads as mismatched sizes; grayscale AA keeps the words even. */
+  -webkit-font-smoothing: antialiased;
 }
 
 .logo-accent {
