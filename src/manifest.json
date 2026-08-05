@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Block Site for 10 Minutes: Stop Doomscrolling",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "Block distracting websites for 10, 30 or 60 minutes. One click site blocker to stop doomscrolling — with no early unblock.",
   "permissions": [
     "declarativeNetRequestWithHostAccess",
