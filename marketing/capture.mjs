@@ -4,9 +4,10 @@
  *
  *   node marketing/capture.mjs            # everything
  *   node marketing/capture.mjs shots      # 5 screenshots (1280x800)
- *   node marketing/capture.mjs tiles      # small + marquee promo tiles
  *   node marketing/capture.mjs video      # 31s promo (webm)
  *   node marketing/capture.mjs verify     # scene stills from the promo timeline
+ *
+ * Promo tiles (small + marquee) are generated separately by scripts/promo.mjs.
  *
  * Stills are rendered at 2x and downscaled with lanczos, which antialiases text
  * far better than rasterising straight to the target size. The stage pages pull
@@ -85,14 +86,6 @@ async function shots(port) {
   });
 }
 
-async function tiles(port) {
-  console.log('promo tiles');
-  await withPage(port, '/marketing/stage/tiles.html', { width: 1500, height: 900 }, async (page) => {
-    await shoot(page, 'tile-small', 440, 280, 'promo-tile-440x280.png');
-    await shoot(page, 'tile-marquee', 1400, 560, 'marquee-1400x560.png');
-  });
-}
-
 /** Stills along the promo timeline, so each scene can be checked before recording. */
 async function verify(port) {
   console.log('promo scene stills');
@@ -147,7 +140,6 @@ await rm(TMP, { recursive: true, force: true });
 await mkdir(TMP, { recursive: true });
 
 if (want('shots')) await shots(port);
-if (want('tiles')) await tiles(port);
 if (want('verify')) await verify(port);
 if (want('video')) await video(port);
 

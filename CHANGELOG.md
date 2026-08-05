@@ -3,6 +3,23 @@
 Versioning is an odometer: each component counts 0–9 and carries into the next
 (1.3.9 → 1.4.0, 1.9.9 → 2.0.0). Cut releases with `npm run release`.
 
+## [1.3.2] - 2026-08-04
+
+Rebrand for discoverability — no behavior changes.
+
+- Renamed to **Block Site for 10 Minutes: Stop Doomscrolling** (manifest `name`, 45 chars —
+  the store title updates when this version is published). Keyword-carrying manifest
+  description and toolbar tooltip. The in-product "10block" wordmark is unchanged.
+- Redesigned icon: still the red stop-sign octagon with a white "10", now drawn from an
+  SVG source (`src/icons/icon.svg`) with a red gradient, rounded corners, and cleaner
+  digits; a simplified variant keeps 16px legible. `scripts/gen-icons.mjs`
+  (`@resvg/resvg-js`) replaces `scripts/make_icons.py`.
+- Promo tile and marquee redrawn in the PDF Mana house style (coral gradient, white
+  rounded tile with the mark) by the new `scripts/promo.mjs`; `marketing/stage/tiles.html`
+  retired. Screenshots and promo video regenerated with the new icon.
+- Store listing copy rewritten around search keywords (website blocker, stop
+  doomscrolling, focus) in `docs/STORE_LISTING.md`.
+
 ## [1.3.1] - 2026-07-31
 
 - Request `declarativeNetRequestWithHostAccess` instead of `declarativeNetRequest`.

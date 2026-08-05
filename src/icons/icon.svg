@@ -1,0 +1,12 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sign" x1="64" y1="8" x2="64" y2="120" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ef4146"/>
+      <stop offset="1" stop-color="#c1121f"/>
+    </linearGradient>
+  </defs>
+  <polygon points="40.80,8.00 87.20,8.00 120.00,40.80 120.00,87.20 87.20,120.00 40.80,120.00 8.00,87.20 8.00,40.80" fill="url(#sign)" stroke="url(#sign)" stroke-width="8" stroke-linejoin="round"/>
+  <polygon points="44.53,17.00 83.47,17.00 111.00,44.53 111.00,83.47 83.47,111.00 44.53,111.00 17.00,83.47 17.00,44.53" fill="none" stroke="#ffffff" stroke-width="4.5" stroke-linejoin="round" opacity="0.95"/>
+  <rect x="36" y="40" width="11" height="48" rx="3" fill="#ffffff"/>
+       <ellipse cx="73" cy="64" rx="14" ry="19" fill="none" stroke="#ffffff" stroke-width="10"/>
+</svg>

@@ -10,10 +10,10 @@ Or one group at a time:
 
 ```sh
 node marketing/capture.mjs shots    # the 5 screenshots
-node marketing/capture.mjs tiles    # small + marquee promo tiles
 node marketing/capture.mjs video    # the 31s promo
 node marketing/capture.mjs verify   # scene stills, into .tmp/ — check before recording
-python3 scripts/make_icons.py --store marketing/store/store-icon-128.png
+node scripts/promo.mjs              # small + marquee promo tiles (SVG → PNG)
+node scripts/gen-icons.mjs --store marketing/store/store-icon-128.png
 ```
 
 ## What's in `store/`
@@ -34,9 +34,13 @@ no early unblock**.
 `stage/popup-frame.html` and `stage/blocked-frame.html` are the popup and the
 countdown page rendered from **`src/popup.css` and `src/blocked.css` directly** —
 not copies. The mark in every asset is `src/icons/icon128.png`, and the store
-icon comes out of `scripts/make_icons.py`, the same generator that produces the
-shipped icons. Nothing here can drift from the real UI without the assets
-changing too.
+icon comes out of `scripts/gen-icons.mjs`, the same generator that produces the
+shipped icons (design source: `src/icons/icon.svg`). Nothing here can drift from
+the real UI without the assets changing too.
+
+The promo tiles are the exception: `scripts/promo.mjs` draws them as SVG
+(coral-gradient background, white rounded tile holding the mark — the PDF Mana
+house style) and rasterises with `@resvg/resvg-js`, no browser involved.
 
 `capture.mjs` serves the repo over a local HTTP server (so the stage pages and
 the real stylesheets are same-origin), drives Playwright's Chromium, and:

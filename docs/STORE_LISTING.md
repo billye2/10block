@@ -1,24 +1,28 @@
 # Chrome Web Store — submission package
 
-Everything to paste into the Developer Dashboard for 10block.
+Everything to paste into the Developer Dashboard for 10block (store title: **Block Site
+for 10 Minutes: Stop Doomscrolling**).
 
 ## Upload package
 
 - **File:** `release/10block-<version>.zip` (built from `src/`, `manifest.json` at the zip root).
-- **Upload `release/10block-1.3.1.zip`** — verified byte-identical to `src/`.
-  ⚠️ `10block-1.3.0.zip` is superseded: it predates the switch to
-  `declarativeNetRequestWithHostAccess`. Don't upload it.
+- **Upload `release/10block-1.3.2.zip`** — the rename release. The store title comes from
+  the manifest `name`, so the listing only renames once this zip is published.
+  ⚠️ Zips ≤1.3.1 carry the old "10block" name; ≤1.3.0 also predate
+  `declarativeNetRequestWithHostAccess`. Don't upload them.
 - (Re)package with **`npm run release`** (or `npm run release -- --no-bump` to re-zip the
   current version). The Web Store rejects re-uploads of a version that already exists, so
   always let the script bump.
 
 ## Listing fields
 
-**Name:** 10block
+**Name:** Block Site for 10 Minutes: Stop Doomscrolling
+_(comes from the manifest `name` — exactly 45 chars, Chrome's limit — and only changes
+when a new zip is published)_
 
 **Summary (short description, ≤132 chars):**
 
-> Block the site you're on for 10 minutes. Two clicks, no typing — and no way to unblock early.
+> Website blocker for focus: block the site you're on for 10, 30 or 60 minutes. Stop doomscrolling — no way to unblock early.
 
 **Category:** Productivity
 
@@ -26,43 +30,47 @@ Everything to paste into the Developer Dashboard for 10block.
 
 **Detailed description:**
 
-> **10block — pause a site for 10 minutes**
+> **Block Site for 10 Minutes — the website blocker that stops doomscrolling**
 >
 > You know the spiral. You open one video, or one thread, and twenty minutes are gone.
-> 10block puts a stop sign in front of that moment: two clicks, and the site you're on
-> is paused.
+> This site blocker puts a stop sign in front of that moment: two clicks, and the
+> distracting website you're on is blocked — for 10, 30, or 60 minutes.
+>
+> **Works on any distracting website**
+>
+> YouTube, Reddit, X (Twitter), TikTok, Instagram, Facebook, Twitch, news sites — if
+> it's open in a tab, you can block it. Blocking a site covers its subdomains too:
+> block youtube.com and m.youtube.com and music.youtube.com go with it.
 >
 > **Two clicks, zero typing**
 >
-> Click the 10block icon on the site you want to escape. The domain is already filled
-> in — it's read from the tab you're on, so there's nothing to type and nothing to
-> configure. Click **Block youtube.com — for 10 minutes**, and the tab turns into a
-> countdown.
+> Click the icon on the site you want to escape. The domain is already filled in — it's
+> read from the tab you're on, so there's nothing to type and no blocklist to configure.
+> Click **Block youtube.com — for 10 minutes**, and the tab turns into a countdown timer.
 >
-> Need longer? **30 minutes** and **60 minutes** sit right below it. Every duration is
-> a single click.
+> Need a longer focus session? **30 minutes** and **60 minutes** sit right below it.
+> Every duration is a single click.
 >
 > **A calm countdown, not an error page**
 >
-> While a site is paused, every visit to it lands on a full-page timer instead — including
-> subdomains, so blocking youtube.com also covers m.youtube.com and music.youtube.com.
->
-> The countdown page paces a 4-second box-breathing cycle while you wait: inhale, hold,
+> While a website is blocked, every visit to it lands on a full-page countdown timer
+> instead. The page paces a 4-second box-breathing cycle while you wait: inhale, hold,
 > exhale, hold, with a ring that expands and contracts in time. The wait does something
 > for you instead of just being a wait.
 >
 > **No early unblock. That's the point.**
 >
-> There is no "just this once" button. Closing the popup doesn't help. Closing the tab
-> doesn't help. Restarting Chrome doesn't help — blocks are stored against an absolute
-> expiry time and are still there when the browser comes back.
+> Most website blockers have a loophole. This one doesn't: there is no "just this once"
+> button. Closing the popup doesn't help. Closing the tab doesn't help. Restarting
+> Chrome doesn't help — blocks are stored against an absolute expiry time and are still
+> there when the browser comes back.
 >
 > A block you can undo on impulse isn't a block. It's a suggestion.
 >
 > **+10 when you genuinely need longer**
 >
-> The popup lists everything currently paused, with the time left on each. Every entry has
-> a **+10** button that adds ten more minutes, up to a 60-minute cap. Extending a block is
+> The popup lists every blocked site with the time left on each. Every entry has a
+> **+10** button that adds ten more minutes, up to a 60-minute cap. Extending a block is
 > one click. Ending one early isn't an option.
 >
 > **It unblocks itself**
@@ -72,18 +80,20 @@ Everything to paste into the Developer Dashboard for 10block.
 >
 > **Good for**
 >
+> - Stopping doomscrolling the moment you catch yourself doing it.
 > - The "just one video" moment, before it becomes an hour.
 > - The reflex tab-open you don't even notice yourself doing.
-> - Getting through a specific task without renegotiating with yourself every few minutes.
-> - Anyone who's bounced off blockers that ask for schedules, categories, and accounts
->   before they'll block anything at all.
+> - Focus, study, and deep-work sessions — beat procrastination on a specific task
+>   without renegotiating with yourself every few minutes.
+> - Anyone who's bounced off site blockers that ask for schedules, categories, and
+>   accounts before they'll block anything at all.
 >
-> **Private by design**
+> **Private by design — and free**
 >
-> 10block has no servers, no accounts, and no analytics. It never sends your browsing
-> anywhere — the extension makes no network requests at all. The only thing it stores is
-> the list of domains you paused and when each one expires, kept locally on your device
-> and removed when the timer runs out.
+> Free, with no account and no sign-up. There are no servers and no analytics — the
+> extension never sends your browsing anywhere and makes no network requests at all. The
+> only thing it stores is the list of domains you blocked and when each one expires,
+> kept locally on your device and removed when the timer runs out.
 >
 > **What it deliberately doesn't do**
 >
@@ -125,8 +135,8 @@ Everything to paste into the Developer Dashboard for 10block.
 - **tabs:** Reads the active tab's URL when the popup opens, so the site to block is filled
   in without typing, and navigates that tab to the countdown page when a block starts.
 - **host_permissions `<all_urls>`:** Under `declarativeNetRequest`, `block` and `allow`
-  rules need **no host permissions at all** — 10block could block sites without requesting
-  any host access. It deliberately doesn't, because a plain `block` leaves the user on a
+  rules need **no host permissions at all** — the extension could block sites without
+  requesting any host access. It deliberately doesn't, because a plain `block` leaves the user on a
   browser network-error page. It uses a `redirect` rule to send the navigation to its own
   countdown page instead, and `redirect` is the one action that requires host access for
   the matched request. The domain isn't knowable in advance — it's whatever site the user
@@ -149,11 +159,12 @@ Everything to paste into the Developer Dashboard for 10block.
 All generated into `marketing/store/` — rebuild everything with **`npm run assets`**.
 See `marketing/README.md`.
 
-- **Store icon:** 128×128 — `marketing/store/store-icon-128.png`
+- **Store icon:** 128×128 — `marketing/store/store-icon-128.png` (from `scripts/gen-icons.mjs`)
 - **Screenshots (1280×800):** `screenshot-1.png` … `screenshot-5.png`, in upload order:
   1 "Two clicks. Zero typing." (popup over a page); 2 "The site becomes a countdown.";
   3 "Box-breathing, built in."; 4 "Need longer? +10."; 5 "No early unblock. That's the point."
-- **Promo tiles:** `promo-tile-440x280.png` (small), `marquee-1400x560.png` (marquee)
+- **Promo tiles:** `promo-tile-440x280.png` (small), `marquee-1400x560.png` (marquee) —
+  coral-gradient PDF Mana style, drawn by `scripts/promo.mjs`
 - **Promo video:** `promo-video-1280x800.webm` — 31 s, silent with caption overlays. The
   dashboard field takes a **YouTube URL, not a file**: upload the webm to YouTube (webm is
   accepted directly), then paste the URL into "Promotional video".
