@@ -2,7 +2,7 @@
 // Writes src/icons/icon.svg (design source) and rasterizes the PNG sizes.
 //
 //   node scripts/gen-icons.mjs                       # src/icons/icon{16,48,128}.png
-//   node scripts/gen-icons.mjs --store <out.png>     # 96px mark centered on a 128px canvas
+//   node scripts/gen-icons.mjs --store <out.png>     # 120px mark centered on a 128px canvas
 import { Resvg } from '@resvg/resvg-js';
 import { writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -47,9 +47,9 @@ function markSvg({ small = false } = {}) {
 </svg>`;
 }
 
-// 96px mark centered on a transparent 128px canvas, for the Web Store listing icon.
+// 120px mark centered on a transparent 128px canvas, for the Web Store listing icon.
 const storeSvg = () => `<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
-  <g transform="translate(16,16) scale(0.75)">${markSvg().replace(/^<svg[^>]*>|<\/svg>$/g, '')}</g>
+  <g transform="translate(4,4) scale(0.9375)">${markSvg().replace(/^<svg[^>]*>|<\/svg>$/g, '')}</g>
 </svg>`;
 
 const render = (svg, size) =>
@@ -62,7 +62,7 @@ if (storeArg !== -1) {
   const out = process.argv[storeArg + 1];
   if (!out) throw new Error('--store needs an output path');
   writeFileSync(join(root, out), render(storeSvg(), 128));
-  console.log(`${out}  (store icon, 96px mark on 128px canvas)`);
+  console.log(`${out}  (store icon, 120px mark on 128px canvas)`);
 } else {
   writeFileSync(join(root, 'src/icons/icon.svg'), markSvg() + '\n');
   console.log('icon.svg');

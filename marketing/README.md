@@ -20,7 +20,7 @@ node scripts/gen-icons.mjs --store marketing/store/store-icon-128.png
 
 | File | Size | Where it goes |
 | --- | --- | --- |
-| `store-icon-128.png` | 128×128 | Store listing icon (96px mark on a 128px canvas) |
+| `store-icon-128.png` | 128×128 | Store listing icon (120px mark on a 128px canvas) |
 | `screenshot-1.png` … `-5.png` | 1280×800 | Screenshots — 5 is the maximum the store accepts |
 | `promo-tile-440x280.png` | 440×280 | Small promo tile |
 | `marquee-1400x560.png` | 1400×560 | Marquee promo tile |
