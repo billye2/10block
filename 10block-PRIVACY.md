@@ -1,6 +1,6 @@
 # Privacy Policy — Block Site for 10 Minutes: Stop Doomscrolling
 
-_Last updated: 2026-08-04_
+_Last updated: 2026-09-08_
 
 **Block Site for 10 Minutes: Stop Doomscrolling** (developed under the working name
 **10block**, used as shorthand below) is a Chrome extension that blocks a website you
@@ -80,8 +80,9 @@ If this policy changes, the updated version will be published here, with a new
 ## Contact
 
 Questions about 10block or this policy: open an issue at
-https://github.com/billye2/pdfxtn/issues
+https://github.com/billye2/10block/issues
 
-That tracker belongs to another extension by the same developer and is monitored for
-10block as well, as 10block's own repository is not public. You can also use the
-"Contact the developer" link on the extension's Chrome Web Store listing.
+10block is open source (MIT). The complete source code of the extension is in that
+same repository, so every claim in this policy can be checked against what actually
+ships. You can also use the "Contact the developer" link on the extension's Chrome
+Web Store listing.
