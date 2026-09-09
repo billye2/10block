@@ -79,7 +79,7 @@ The only thing the extension stores is the list of domains the user chose to pau
 Paste this into the **Privacy policy URL** field:
 
 ```
-https://github.com/billye2/pdfxtn/blob/main/docs/10block-PRIVACY.md
+https://github.com/billye2/10block/blob/main/10block-PRIVACY.md
 ```
 
 `10block-PRIVACY.md` in this repo's root is the master copy. Because `billye2/10block` is

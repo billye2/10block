@@ -108,7 +108,7 @@ when a new zip is published)_
 
 ## Privacy & data
 
-- **Privacy policy URL:** https://github.com/billye2/pdfxtn/blob/main/docs/10block-PRIVACY.md
+- **Privacy policy URL:** https://github.com/billye2/10block/blob/main/10block-PRIVACY.md
   — master copy is `10block-PRIVACY.md` in this repo's root; the published copy is hosted
   in the public `billye2/pdfxtn` repo because `billye2/10block` is private. Verified
   publicly reachable. **Edit both copies together.**
