@@ -3,3 +3,4 @@ test-results/
 playwright-report/
 marketing/.tmp/
 .DS_Store
+HANDOFF.md

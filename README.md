@@ -58,7 +58,6 @@ marketing/          Web Store artwork and the generator that builds it (npm run 
 docs/               store listing copy and per-permission justifications
 10block-PRIVACY.md  privacy policy
 CHANGELOG.md        one section per version; the release script requires it
-HANDOFF.md          project state, key mechanics, and open items
 ```
 
 ## Releases
@@ -111,4 +110,8 @@ Listing copy, per-permission justifications, and the pre-submit checklist live i
 
 ## Picking this up
 
-See [HANDOFF.md](HANDOFF.md) for current state, the mechanics worth knowing before changing `background.js`, and open items (Web Store submission, palette cleanup).
+Before changing `background.js`, read the "How it works" section above and [docs/privacy-practices-copy.md](docs/privacy-practices-copy.md): the `<all_urls>` host permission and the `redirect` rule are deliberate, and the reasoning is written down there.
+
+## License
+
+[MIT](LICENSE) © Billy Ye

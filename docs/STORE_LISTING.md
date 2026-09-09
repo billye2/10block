@@ -148,8 +148,10 @@ when a new zip is published)_
 
 > ⚠️ `<all_urls>` is the highest-friction part of this listing and the dashboard has
 > already flagged it, suggesting `activeTab` or a fixed site list. **Decision: keep it**
-> — see HANDOFF.md for the reasoning and the fallback if review pushes back. Expect a
-> slower first review.
+> — `block` rules need no host access, but the countdown page needs a `redirect` rule,
+> and `redirect` is what requires it (see `privacy-practices-copy.md`). Fallback if review
+> pushes back hard: `optional_host_permissions` requested at block time. Expect a slower
+> first review.
 
 > The full-length version of every justification above, formatted per dashboard field,
 > is in `docs/privacy-practices-copy.md`. **Keep the two in sync.**

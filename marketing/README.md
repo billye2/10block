@@ -95,6 +95,6 @@ ffmpeg -i marketing/store/promo-video-1280x800.webm \
 - Upload `release/10block-1.3.1.zip` (not 1.3.0 — it's superseded).
 - `<all_urls>` has already been flagged by the dashboard, and the decision is to
   **keep it**. The justification is written; see `docs/privacy-practices-copy.md`
-  and the reasoning in `HANDOFF.md`. Expect a slower first review.
+  and the "How it works" section of the README. Expect a slower first review.
 - No screenshot uses a third-party logo or brand colour — domains appear as
   plain text in an address bar only, which is what the extension actually does.
